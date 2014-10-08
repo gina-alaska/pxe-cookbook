@@ -1,0 +1,10 @@
+name             'kickstart'
+maintainer       'UAF-GINA'
+maintainer_email 'support+chef@gina.alaska.edu'
+license          'Apache 2.0'
+description      'Installs/Configures kickstart'
+long_description 'Installs/Configures kickstart'
+version          '0.1.0'
+
+depends 'apache2'
+depends 'chef-sugar'
