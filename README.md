@@ -1,38 +1,25 @@
-# kickstart-cookbook
+# pxe-cookbook
 
-TODO: Enter the cookbook description here.
+PXE Configuration and Kickstart for Centos 6/7 servers.
+This cookbook is largely based on pxe_dust by Matt Ray
 
 ## Supported Platforms
 
-TODO: List your supported platforms.
+RHEL 6/7
+CentOS 6/7
 
 ## Attributes
 
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['kickstart']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
-
 ## Usage
 
-### kickstart::default
+### pxe::default
 
-Include `kickstart` in your node's `run_list`:
+Include `pxe` in your node's `run_list`:
 
 ```json
 {
   "run_list": [
-    "recipe[kickstart::default]"
+    "recipe[pxe::default]"
   ]
 }
 ```

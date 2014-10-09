@@ -6,11 +6,10 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-6.4
   - name: centos-7.0
 
 suites:
   - name: default
     run_list:
-      - kickstart::default
+      - pxe::default
     attributes:

@@ -1,0 +1,9 @@
+{
+    "id": "centos-7.0-metal",
+    "arch": "x86_64",
+    "platform": "centos",
+    "version": "7.0",
+    "run_list": "role[base]",
+    "netboot_url": "http://mirrors.usc.edu/pub/linux/distributions/centos/7.0.1406/isos/x86_64/CentOS-7.0-1406-x86_64-NetInstall.iso",
+    "root_disks": ["/dev/sda", "/dev/sdb"]
+}

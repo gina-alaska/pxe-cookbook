@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: kickstart
+# Cookbook Name:: pxe
 # Recipe:: default
 #
 # Copyright (C) 2014 UAF-GINA
@@ -16,24 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-node.set['apache2']['default_site_enabled'] = false
-include_recipe 'apache2'
-
-
-directory node['kickstart']['web_root'] do
-  action :create
-  recursive true
-end
-
-node['kickstart']['files'].each do |file|
-  cookbook_file "#{node['kickstart']['web_root']}/#{file}"
-end
-
-web_app 'kickstart' do
-  template 'kickstart.conf.erb'
-  cookbook 'kickstart'
-  docroot node['kickstart']['web_root']
-  server_name 'kickstart.sandy'
-  directory_options ['Indexes']
-end
+include_recipe 'pxe::server'

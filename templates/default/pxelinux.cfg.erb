@@ -1,0 +1,13 @@
+prompt 0
+timeout 0
+localboot 0
+default default
+
+<% Array(@images).each do |image| %>
+<% base_path = ['pxe', image['platform'], image['version'], image['arch']].join("-") %>
+<% ks = image['version'].to_i >= 7.0 ? 'init.ks' : 'ks' %>
+label <%=image['id']%>
+  kernel <%=base_path%>/images/pxeboot/vmlinuz
+  append initrd=<%=base_path%>/images/pxeboot/initrd.img <%=ks%>=http://<%=node['ipaddress']%>/kickstart/<%=image['kickstart']%>
+
+<% end %>

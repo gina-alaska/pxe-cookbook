@@ -1,0 +1,52 @@
+install
+lang en_GB.UTF-8
+keyboard us
+timezone --utc America/Anchorage
+auth --useshadow --enablemd5
+selinux --disabled
+firewall --service=ssh
+network --onboot yes --device eth0 --bootproto dhcp --noipv6
+services --disabled avahi-daemon,bluetooth,cpuspeed,cups,gpm,hidd,pcscd,firstboot --enabled network,sshd
+ignoredisk --only-use=<%=@root_disks.join(",")%>
+text
+reboot
+
+
+zerombr
+clearpart --linux --drives=<%=@root_disks.join(",")%>
+
+<% if @root_disks.length > 1 %>
+<% @root_disks.each do |disk| %>
+part raid.11 --size <%=@boot_volume_size%> --asprimary --ondrive=<%=disk%>
+part raid.12 --size 1 --grow --asprimary --ondrive=<%=disk%>
+<% end %>
+
+raid /boot --fstype ext3 --device md0 --level=RAID1 raid.11 raid.21
+raid pv.01 --fstype ext3 --device md1 --level=RAID1 raid.12 raid.22
+<% else %>
+part /boot --size=<%=@boot_volume_size%> --asprimary --fstype=ext3
+part pv.01 --size 1 --grow
+<% end %>
+
+volgroup system pv.01
+logvol swap --vgname=system --fstype=swap --recommended --name=lv_swap
+logvol /    --vgname=system --fstype=ext4 --size=10240  --name=lv_slash
+logvol /var  --vgname=system --fstype=ext4 --size=5120  --name=lv_var
+logvol /home --vgname=system --fstype=ext4 --size=1024  --name=lv_home
+logvol /tmp  --vgname=system --fstype=ext4 --size=1024  --name=lv_tmp
+
+bootloader --location=mbr --timeout=5 --append="quiet"
+
+url --url http://mirror.sandy/centos/7/os/x86_64/
+
+%packages --nobase --ignoremissing
+@core
+-NetworkManager
+<%= @packages.join('\n') %>
+%end
+
+%post --log=/root/ks-post.log
+wget --no-proxy -O /tmp/chef-bootstrap \
+  http://<%=node['ipaddress']%>/<%=@id%>-chef-bootstrap ;\
+  /bin/bash /tmp/chef-bootstrap
+%end

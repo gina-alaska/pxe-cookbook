@@ -1,0 +1,9 @@
+{
+    "id": "centos-6.5-vm",
+    "arch": "x86_64",
+    "platform": "centos",
+    "version": "6.5",
+    "run_list": "role[base]",
+    "netboot_url": "http://mirrors.usc.edu/pub/linux/distributions/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-netinstall.iso",
+    "root_disks": ["/dev/vda"]
+}
